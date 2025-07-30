@@ -1,0 +1,32 @@
+<div class="register-wrapper">
+  <div class="register-card">
+    <h2>{{ 'create_account' | translate }}</h2>
+
+    <form (ngSubmit)="register()" #registerForm="ngForm">
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        required
+        [placeholder]="'email_placeholder' | translate"
+      />
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        required
+        [placeholder]="'password_placeholder' | translate"
+      />
+      <button type="submit" [disabled]="registerForm.invalid" class="cta-btn">
+        {{ 'sign_up' | translate }}
+      </button>
+
+      <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
+    </form>
+
+    <p class="back-link">
+      {{ 'already_have_account' | translate }}
+      <a routerLink="/login">{{ 'sign_in' | translate }}</a>
+    </p>
+  </div>
+</div>

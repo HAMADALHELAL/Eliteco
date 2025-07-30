@@ -1,0 +1,17 @@
+<header class="navbar">
+  <a [routerLink]="['/home']" class="logo-container">
+    <img src="assets/logo.jpg" class="logo" />
+  </a>
+
+  <div class="row">
+    <!-- Language buttons -->
+    <div class="lang-switcher">
+      <button class="lang-btn" (click)="switchLang('en')">{{ 'lang_en' | translate }}</button>
+      <button class="lang-btn" (click)="switchLang('ar')">{{ 'lang_ar' | translate }}</button>
+    </div>
+
+    <!-- Auth buttons -->
+    <button class="sign-in-btn" style="margin-right: 10px;" [routerLink]="['/register']">{{ 'sign_up' | translate }}</button>
+    <button class="sign-in-btn" [routerLink]="['/login']">{{ 'sign_in' | translate }}</button>
+  </div>
+</header>

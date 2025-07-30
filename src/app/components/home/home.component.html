@@ -1,0 +1,50 @@
+<div class="home-wrapper">
+
+  <!-- Hero Section -->
+  <!-- 
+  <section class="hero">
+    <div class="hero-content">
+      <h1>{{ 'home_title' | translate }}</h1>
+      <p>{{ 'home_subtitle' | translate }}</p>
+      <a routerLink="/register" class="cta-btn">{{ 'register' | translate }}</a>
+    </div>
+  </section> 
+  -->
+
+  <!-- Join Our Community -->
+  <!-- 
+  <section id="community" class="section alt-section">
+    <div class="section-content">
+      <h2 class="section-title">{{ 'join_meetings_title' | translate }}</h2>
+      <p>{{ 'join_meetings_desc' | translate }}</p>
+      <a routerLink="/meetings" class="cta-btn outline">{{ 'explore_meetings' | translate }}</a>
+    </div>
+  </section> 
+  -->
+
+  <!-- Online Courses -->
+  <section id="courses" class="section light-section">
+    <div class="section-header">
+      <h2 class="section-title">{{ 'available_courses' | translate }}</h2>
+      <a
+  routerLink="/courses"
+  class="view-all-btn"
+  [ngClass]="{ 'accent-text': currentLang === 'ar' }"
+>
+  {{ 'browse_courses' | translate }}
+</a>
+
+    </div>
+
+    <div class="carousel">
+      <button class="arrow left" (click)="scrollLeft('courses-carousel')">‹</button>
+      <div class="carousel-track" id="courses-carousel">
+        <div class="card" *ngFor="let course of [1,2,3,4,5,6]">
+          {{ 'course' | translate }} {{ course }}
+        </div>
+      </div>
+      <button class="arrow right" (click)="scrollRight('courses-carousel')">›</button>
+    </div>
+  </section>
+
+</div>

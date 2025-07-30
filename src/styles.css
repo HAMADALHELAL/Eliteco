@@ -1,1 +1,34 @@
 /* You can add global styles to this file, and also import other style files */
+/* src/styles.css */
+:root {
+    --primary-color: #87C781;
+    --accent-color: #4B96CE;
+  }
+  
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--text-color);
+    background-color: white;
+  }
+  
+  .mat-mdc-raised-button.mat-primary {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  .mat-mdc-raised-button.mat-accent {
+    background-color: var(--accent-color);
+    color: white;
+  }
+  body {
+    font-family: 'Poppins', sans-serif;
+  }
+  html[dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+  }
+  
+  html[dir="ltr"] {
+    direction: ltr;
+    text-align: left;
+  }
