@@ -1,81 +1,81 @@
-<form (ngSubmit)="register()" #registerForm="ngForm" class="grid gap-3">
-  <!-- First & Last name -->
-  <input
-    type="text"
-    name="firstName"
-    [(ngModel)]="firstName"
-    required
-    placeholder="First name"
-  />
-  <input
-    type="text"
-    name="lastName"
-    [(ngModel)]="lastName"
-    required
-    placeholder="Last name"
-  />
+<div class="register-wrapper">
+  <div class="register-card">
+    <h2>{{ "create_account" | translate }}</h2>
 
-  <!-- Username -->
-  <input
-    type="text"
-    name="username"
-    [(ngModel)]="username"
-    required
-    minlength="3"
-    maxlength="20"
-    placeholder="Username"
-  />
+    <form (ngSubmit)="register()" #registerForm="ngForm">
+      <!-- First & Last name -->
+      <input
+        type="text"
+        name="firstName"
+        [(ngModel)]="firstName"
+        required
+        [placeholder]="'first_name_placeholder' | translate"
+      />
+      <input
+        type="text"
+        name="lastName"
+        [(ngModel)]="lastName"
+        required
+        [placeholder]="'last_name_placeholder' | translate"
+      />
 
-  <!-- Role -->
-  <select name="role" [(ngModel)]="role" required>
-    <option value="" disabled selected>Select role</option>
-    <option value="student">Student</option>
-    <option value="teacher">Teacher</option>
-  </select>
+      <!-- Username -->
+      <input
+        type="text"
+        name="username"
+        [(ngModel)]="username"
+        required
+        minlength="3"
+        maxlength="20"
+        [placeholder]="'username_placeholder' | translate"
+      />
 
-  <!-- Email -->
-  <input
-    type="email"
-    name="email"
-    [(ngModel)]="email"
-    required
-    placeholder="Email"
-  />
+      <!-- Email -->
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        required
+        [placeholder]="'email_placeholder' | translate"
+      />
 
-  <!-- Password -->
-  <input
-    type="password"
-    name="password"
-    [(ngModel)]="password"
-    required
-    minlength="8"
-    placeholder="Password"
-  />
+      <!-- Password -->
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        required
+        minlength="8"
+        [placeholder]="'password_placeholder' | translate"
+      />
 
-  <!-- Confirm Password (client-only check, not sent to backend) -->
-  <input
-    type="password"
-    name="confirmPassword"
-    [(ngModel)]="confirmPassword"
-    required
-    minlength="8"
-    placeholder="Confirm Password"
-  />
+      <!-- Confirm Password -->
+      <input
+        type="password"
+        name="confirmPassword"
+        [(ngModel)]="confirmPassword"
+        required
+        minlength="8"
+        [placeholder]="'confirm_password_placeholder' | translate"
+      />
 
-  <!-- Error + Submit -->
-  @if (errorMessage) {
-  <p class="error-msg">{{ errorMessage }}</p>
-  }
+      <!-- Error -->
+      <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
 
-  <button
-    type="submit"
-    [disabled]="registerForm.invalid || loading"
-    class="cta-btn"
-  >
-    @if (!loading) {
-    <span>Sign Up</span>
-    } @else {
-    <span>Loading…</span>
-    }
-  </button>
-</form>
+      <!-- Submit -->
+      <button
+        type="submit"
+        [disabled]="registerForm.invalid || loading"
+        class="cta-btn"
+      >
+        <span *ngIf="!loading">{{ "sign_up" | translate }}</span>
+        <span *ngIf="loading">{{ "loading" | translate }}…</span>
+      </button>
+    </form>
+
+    <p class="back-link">
+      {{ "already_have_account" | translate }}
+      <a [routerLink]="['/login']">{{ "sign_in" | translate }}</a>
+    </p>
+  </div>
+</div>

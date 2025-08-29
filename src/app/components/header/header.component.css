@@ -1,3 +1,6 @@
+
+
+
 .navbar {
   display: flex;
   align-items: center;
@@ -86,4 +89,28 @@ body[dir="rtl"] .navbar {
 
 body[dir="rtl"] .right {
   justify-content: flex-start;
+}
+.profile-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-icon {
+  font-size: 40px;                  
+  color: white;                     
+  background-color: var(--primary-color); 
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;               
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.profile-icon:hover {
+  transform: scale(1.1);            
+  background-color: #6ab26e;        
 }

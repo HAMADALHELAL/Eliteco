@@ -1,19 +1,31 @@
-<header class="navbar">
-  <div class="left">
-    <div class="lang-switcher">
-      <button class="lang-btn" (click)="switchLang('en')">{{ 'lang_en' | translate }}</button>
-      <button class="lang-btn" (click)="switchLang('ar')">{{ 'lang_ar' | translate }}</button>
+<div class="container">
+  <header class="navbar">
+    <div class="left">
+      <div class="lang-switcher">
+        <button class="lang-btn" (click)="switchLang('en')">{{ 'lang_en' | translate }}</button>
+        <button class="lang-btn" (click)="switchLang('ar')">{{ 'lang_ar' | translate }}</button>
+      </div>
     </div>
-  </div>
 
-  <div class="center">
-    <a [routerLink]="['/home']" class="logo-container">
-      <img src="assets/logo.jpg" class="logo" />
-    </a>
-  </div>
+    <div class="center">
+      <a [routerLink]="['/home']" class="logo-container">
+        <img src="assets/logo.jpg" class="logo" />
+      </a>
+    </div>
 
-  <div class="right">
-    <button class="sign-in-btn" [routerLink]="['/register']">{{ 'sign_up' | translate }}</button>
-    <button class="sign-in-btn" [routerLink]="['/login']">{{ 'sign_in' | translate }}</button>
-  </div>
-</header>
+    <div class="right">
+      <!-- Show these if NOT logged in -->
+      <ng-container *ngIf="!isAuthed">
+        <button class="sign-in-btn" [routerLink]="['/register']">{{ 'sign_up' | translate }}</button>
+        <button class="sign-in-btn" [routerLink]="['/login']">{{ 'sign_in' | translate }}</button>
+      </ng-container>
+
+      <!-- Show this if logged in -->
+      <ng-container *ngIf="isAuthed">
+        <a [routerLink]="['/profile']" class="profile-link">
+          <mat-icon class="profile-icon">account_circle</mat-icon>
+        </a>
+      </ng-container>
+    </div>
+  </header>
+</div>

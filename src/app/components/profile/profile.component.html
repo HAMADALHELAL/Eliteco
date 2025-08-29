@@ -1,0 +1,19 @@
+<div class="profile-wrapper" *ngIf="user">
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="profile-avatar">{{ user.username[0] | uppercase }}</div>
+        <h2>User Profile</h2>
+      </div>
+  
+      <div class="profile-info">
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+      </div>
+  
+      <!-- Logout Button -->
+      <div class="profile-actions">
+        <button class="logout-btn" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+  
