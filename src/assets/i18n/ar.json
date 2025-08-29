@@ -16,6 +16,9 @@
   "email_placeholder": "البريد الإلكتروني",
   "password_placeholder": "كلمة المرور",
   "already_have_account": "هل لديك حساب بالفعل؟",
-  "dont_have_account": "لا تملك حساباً؟"
+  "dont_have_account": "لا تملك حساباً؟",
+   "required_error": "يرجى تعبئة جميع الحقول المطلوبة.",
+  "password_mismatch_error": "كلمتا المرور غير متطابقتين.",
+  "confirm_password": "تأكيد كلمة المرور"
   }
   

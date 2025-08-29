@@ -25,14 +25,18 @@ import { RouterModule } from '@angular/router';
     if (isPlatformBrowser(this.platformId)) {
       const savedLang = localStorage.getItem('lang') || this.translate.getBrowserLang() || 'en';
       this.switchLang(savedLang);
+  
+      this.translate.onLangChange.subscribe((event) => {
+        this.currentLang = event.lang;
+      });
+  
+      this.currentLang = this.translate.currentLang || 'en';
+    } else {
+      // Fallback for server-side rendering
+      this.currentLang = this.translate.getDefaultLang() || 'en';
     }
-
-    this.translate.onLangChange.subscribe((event) => {
-      this.currentLang = event.lang;
-    });
-
-    this.currentLang = this.translate.currentLang || 'en';
   }
+  
 
   switchLang(lang: string): void {
     this.translate.use(lang);
@@ -41,8 +45,8 @@ import { RouterModule } from '@angular/router';
     if (isPlatformBrowser(this.platformId)) {
       document.documentElement.lang = lang;
       document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-      localStorage.setItem('lang', lang);
     }
+    
   }
 
   scrollLeft(id: string): void {

@@ -16,5 +16,9 @@
   "email_placeholder": "Email address",
   "password_placeholder": "Password",
   "already_have_account": "Already have an account?",
-  "dont_have_account": "Don't have an account?"
+  "dont_have_account": "Don't have an account?",
+    "required_error": "Please fill out all required fields.",
+    "password_mismatch_error": "Passwords do not match.",
+    "confirm_password": "Confirm Password"
+  
   }

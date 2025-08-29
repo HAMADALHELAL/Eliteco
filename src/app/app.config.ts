@@ -13,6 +13,11 @@ import { environment } from '../environments/environments';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from './shared/translation/translate-loader';
 
+/* === ADDED IMPORTS (keep everything else as-is) === */
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
+/* === END ADDED IMPORTS === */
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
@@ -33,5 +38,9 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
+
+    /* === ADDED PROVIDER (register JWT interceptor) === */
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    /* === END ADDED PROVIDER === */
   ]
 };
