@@ -1,85 +1,81 @@
-<div class="register-wrapper">
-  <div class="register-card">
-    <h2>{{ 'create_account' | translate }}</h2>
+<form (ngSubmit)="register()" #registerForm="ngForm" class="grid gap-3">
+  <!-- First & Last name -->
+  <input
+    type="text"
+    name="firstName"
+    [(ngModel)]="firstName"
+    required
+    placeholder="First name"
+  />
+  <input
+    type="text"
+    name="lastName"
+    [(ngModel)]="lastName"
+    required
+    placeholder="Last name"
+  />
 
-    <form (ngSubmit)="register()" #registerForm="ngForm" class="grid gap-3">
-      <!-- First & Last name -->
-      <input
-        type="text"
-        name="firstName"
-        [(ngModel)]="firstName"
-        required
-        [placeholder]="'first_name' | translate"
-      />
-      <input
-        type="text"
-        name="lastName"
-        [(ngModel)]="lastName"
-        required
-        [placeholder]="'last_name' | translate"
-      />
+  <!-- Username -->
+  <input
+    type="text"
+    name="username"
+    [(ngModel)]="username"
+    required
+    minlength="3"
+    maxlength="20"
+    placeholder="Username"
+  />
 
-      <!-- Username -->
-      <input
-        type="text"
-        name="username"
-        [(ngModel)]="username"
-        required
-        minlength="3"
-        maxlength="20"
-        [placeholder]="'username' | translate"
-      />
+  <!-- Role -->
+  <select name="role" [(ngModel)]="role" required>
+    <option value="" disabled selected>Select role</option>
+    <option value="student">Student</option>
+    <option value="teacher">Teacher</option>
+  </select>
 
-      <!-- Role (must be 'student' or 'teacher') -->
-      <select
-        name="role"
-        [(ngModel)]="role"
-        required
-      >
-        <option value="" disabled selected>{{ 'select_role' | translate }}</option>
-        <option value="student">{{ 'student' | translate }}</option>
-        <option value="teacher">{{ 'teacher' | translate }}</option>
-      </select>
+  <!-- Email -->
+  <input
+    type="email"
+    name="email"
+    [(ngModel)]="email"
+    required
+    placeholder="Email"
+  />
 
-      <!-- Email / Passwords -->
-      <input
-        type="email"
-        name="email"
-        [(ngModel)]="email"
-        required
-        [placeholder]="'email_placeholder' | translate"
-        autocomplete="email"
-      />
-      <input
-        type="password"
-        name="password"
-        [(ngModel)]="password"
-        required
-        minlength="8"
-        [placeholder]="'password_placeholder' | translate"
-        autocomplete="new-password"
-      />
-      <input
-        type="password"
-        name="confirmPassword"
-        [(ngModel)]="confirmPassword"
-        required
-        minlength="8"
-        [placeholder]="'confirm_password' | translate"
-        autocomplete="new-password"
-      />
+  <!-- Password -->
+  <input
+    type="password"
+    name="password"
+    [(ngModel)]="password"
+    required
+    minlength="8"
+    placeholder="Password"
+  />
 
-      <!-- Error + Submit -->
-      <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
-      <button type="submit" [disabled]="registerForm.invalid || loading" class="cta-btn">
-        <span *ngIf="!loading">{{ 'sign_up' | translate }}</span>
-        <span *ngIf="loading">{{ 'loading' | translate }}…</span>
-      </button>
-    </form>
+  <!-- Confirm Password (client-only check, not sent to backend) -->
+  <input
+    type="password"
+    name="confirmPassword"
+    [(ngModel)]="confirmPassword"
+    required
+    minlength="8"
+    placeholder="Confirm Password"
+  />
 
-    <p class="back-link">
-      {{ 'already_have_account' | translate }}
-      <a routerLink="/login">{{ 'sign_in' | translate }}</a>
-    </p>
-  </div>
-</div>
+  <!-- Error + Submit -->
+  @if (errorMessage) {
+  <p class="error-msg">{{ errorMessage }}</p>
+  }
+
+  <button
+    type="submit"
+    [disabled]="registerForm.invalid || loading"
+    class="cta-btn"
+  >
+    @if (!loading) {
+    <span>Sign Up</span>
+    } @else {
+    <span>Loading…</span>
+    }
+  </button>
+</form>
