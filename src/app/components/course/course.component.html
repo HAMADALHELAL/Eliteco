@@ -1,0 +1,19 @@
+<div class="course-page">
+    <div class="course-wrapper" *ngIf="course; else loading">
+      <h2>{{ course.title }}</h2>
+      <p><strong>By:</strong> {{ course.teacher.username }}</p>
+      <p><strong>Price:</strong> {{ course.price | currency }}</p>
+      <p>{{ course.description }}</p>
+  
+      <!-- Video -->
+      <video *ngIf="course.media.videoUrl" 
+             [src]="course.media.videoUrl" 
+             controls 
+             class="course-video"></video>
+    </div>
+  
+    <ng-template #loading>
+      <p>Loading course...</p>
+    </ng-template>
+  </div>
+  

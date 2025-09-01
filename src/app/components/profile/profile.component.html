@@ -6,12 +6,25 @@
       </div>
   
       <div class="profile-info">
+        <p><strong>First Name:</strong> {{ user.firstName }}</p>
+        <p><strong>Last Name:</strong> {{ user.lastName }}</p>
         <p><strong>Email:</strong> {{ user.email }}</p>
         <p><strong>Username:</strong> {{ user.username }}</p>
+        <p *ngIf="user.role === 'admin'">
+            <strong>Role:</strong> {{ user.role }}
+          </p>
+    
       </div>
   
-      <!-- Logout Button -->
+      <!-- Actions -->
       <div class="profile-actions">
+        <!-- Show only if admin -->
+        <button *ngIf="user.role === 'admin'" 
+                class="admin-btn"
+                [routerLink]="['/admin']">
+          Admin Page
+        </button>
+  
         <button class="logout-btn" (click)="logout()">Logout</button>
       </div>
     </div>

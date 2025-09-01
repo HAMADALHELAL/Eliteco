@@ -1,0 +1,25 @@
+<div class="admin-wrapper" *ngIf="isAdmin; else notAuthorized">
+    <div class="admin-card">
+      <h2>Admin Dashboard</h2>
+      <p>Welcome, {{ user?.firstName }} {{ user?.lastName }}</p>
+      <p><strong>Email:</strong> {{ user?.email }}</p>
+      <p><strong>Username:</strong> {{ user?.username }}</p>
+  
+      <div class="admin-actions">
+        <!-- <button class="admin-btn">Manage Users</button> -->
+        <button class="admin-btn" routerLink="/manage-courses">Manage Courses</button>
+        <!-- <button class="admin-btn">Reports</button> -->
+      </div>
+      
+    </div>
+  </div>
+  
+  <ng-template #notAuthorized>
+    <div class="admin-wrapper">
+      <div class="admin-card">
+        <h2>Access Denied</h2>
+        <p>You are not authorized to view this page.</p>
+      </div>
+    </div>
+  </ng-template>
+  

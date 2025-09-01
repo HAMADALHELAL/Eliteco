@@ -1,0 +1,37 @@
+<div class="manage-courses-wrapper">
+    <h2>Manage Courses</h2>
+  
+    <!-- Add new course -->
+    <form (ngSubmit)="addCourse()" enctype="multipart/form-data">
+      <input type="text" [(ngModel)]="title" name="title" placeholder="Course Title" required />
+      <textarea [(ngModel)]="description" name="description" placeholder="Description"></textarea>
+      <input type="number" [(ngModel)]="price" name="price" placeholder="Price" required />
+  
+      <!-- Teacher dropdown -->
+      <select [(ngModel)]="teacherId" name="teacher" required>
+        <option value="" disabled selected>Select a teacher</option>
+        <option *ngFor="let t of teachers" [value]="t._id">
+          {{ t.firstName }} {{ t.lastName }} ({{ t.username }})
+        </option>
+      </select>
+      
+  
+      <!-- Uploads -->
+      <label>Upload Course Image</label>
+      <input type="file" (change)="onFileChange($event, 'image')" accept="image/*" required />
+      <label>Upload Course Video</label>
+      <input type="file" (change)="onFileChange($event, 'video')" accept="video/*" required />  
+      <button type="submit">Add Course</button>
+    </form>
+  
+    <!-- List courses -->
+    <div class="course-list">
+      <div *ngFor="let c of courses" class="course-item">
+        <h3>{{ c.title }}</h3>
+        <p>{{ c.description }}</p>
+        <p>Price: {{ c.price }}$</p>
+        <button (click)="deleteCourse(c._id)">Delete</button>
+      </div>
+    </div>
+  </div>
+  

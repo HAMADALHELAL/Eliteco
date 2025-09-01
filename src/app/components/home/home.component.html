@@ -1,50 +1,32 @@
 <div class="home-wrapper">
-
-  <!-- Hero Section -->
-  <!-- 
-  <section class="hero">
-    <div class="hero-content">
-      <h1>{{ 'home_title' | translate }}</h1>
-      <p>{{ 'home_subtitle' | translate }}</p>
-      <a routerLink="/register" class="cta-btn">{{ 'register' | translate }}</a>
-    </div>
-  </section> 
-  -->
-
-  <!-- Join Our Community -->
-  <!-- 
-  <section id="community" class="section alt-section">
-    <div class="section-content">
-      <h2 class="section-title">{{ 'join_meetings_title' | translate }}</h2>
-      <p>{{ 'join_meetings_desc' | translate }}</p>
-      <a routerLink="/meetings" class="cta-btn outline">{{ 'explore_meetings' | translate }}</a>
-    </div>
-  </section> 
-  -->
-
   <!-- Online Courses -->
   <section id="courses" class="section light-section">
     <div class="section-header">
-      <h2 class="section-title">{{ 'available_courses' | translate }}</h2>
-      <a
-  routerLink="/courses"
-  class="view-all-btn"
-  [ngClass]="{ 'accent-text': currentLang === 'ar' }"
->
-  {{ 'browse_courses' | translate }}
-</a>
-
+      <h2 class="section-title text-center">{{ 'available_courses' | translate }}</h2>
     </div>
 
-    <div class="carousel">
+    <div class="carousel" *ngIf="courses.length > 0; else noCourses">
       <button class="arrow left" (click)="scrollLeft('courses-carousel')">‹</button>
+
       <div class="carousel-track" id="courses-carousel">
-        <div class="card" *ngFor="let course of [1,2,3,4,5,6]">
-          {{ 'course' | translate }} {{ course }}
+        <div class="card" *ngFor="let course of courses" [routerLink]="['/course', course._id]">
+          <img [src]="course.media.imageUrl" alt="{{ course.title }}" class="course-media" />
+        
+          <div class="card-overlay">
+            <h3>{{ course.title }}</h3>
+            <p>{{ course.price | currency }}</p>
+            <small>By {{ course.teacher.username }}</small>
+          </div>
         </div>
+        
       </div>
+
       <button class="arrow right" (click)="scrollRight('courses-carousel')">›</button>
     </div>
-  </section>
 
+    <!-- No courses fallback -->
+    <ng-template #noCourses>
+      <p class="text-center">No courses available yet.</p>
+    </ng-template>
+  </section>
 </div>
