@@ -1,0 +1,26 @@
+<!-- admin.component.html -->
+<form #adminForm="ngForm" (ngSubmit)="onSubmit()">
+  <input
+    type="email"
+    name="email"
+    [(ngModel)]="email"
+    (ngModelChange)="checkEmail()"
+    placeholder="Enter teacher email"
+    required
+  />
+  <span *ngIf="emailExists">✅</span>
+
+  <div *ngIf="emailExists">
+    <p>Username: {{ teacher?.username }}</p>
+    <p>Name: {{ teacher?.firstName }} {{ teacher?.lastName }}</p>
+    <p>Role: {{ teacher?.role }}</p>
+
+    <input
+      type="file"
+      name="media"
+      (change)="onFileSelected($event)"
+      required
+    />
+    <button type="submit">Upload File</button>
+  </div>
+</form>
