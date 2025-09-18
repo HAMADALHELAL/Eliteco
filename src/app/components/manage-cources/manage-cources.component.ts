@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CourseService, Course } from '../../services/course.service';
+import { AuthService, AuthUser } from '../../services/auth.service';
 
 @Component({
   selector: 'app-manage-courses',
@@ -12,6 +13,8 @@ import { CourseService, Course } from '../../services/course.service';
 })
 export class ManageCoursesComponent implements OnInit {
   courses: Course[] = [];
+  teachers: any[] = [];
+  user: AuthUser | null = null;
 
   // form fields
   title = '';
@@ -19,30 +22,43 @@ export class ManageCoursesComponent implements OnInit {
   price: number = 0;
   teacherId: string = '';
 
-  // hold files separately
-  files: { image: File | null; video: File | null } = {
-    image: null,
-    video: null,
-  };
+  files: { image: File | null; video: File | null } = { image: null, video: null };
 
-  teachers: any[] = []; // you’ll fill this with API call later
-
-  constructor(private courseService: CourseService) {}
+  constructor(private courseService: CourseService, private auth: AuthService) {}
 
   ngOnInit(): void {
-    this.loadCourses();
-    this.loadTeachers();
+    // load user first
+    this.auth.getProfile().subscribe({
+      next: (user) => {
+        this.user = user;
+        if (this.isAdmin) {
+          this.loadCourses();
+          this.loadTeachers();
+        }
+      },
+      error: (err) => {
+        console.error('❌ Failed to load profile:', err);
+      }
+    });
+  }
 
-    // TODO: fetch teachers if you have an endpoint for them
+  get isAdmin(): boolean {
+    return this.user?.role === 'admin';
   }
 
   loadCourses() {
     this.courseService.getCourses().subscribe((c) => (this.courses = c));
   }
 
-  // handle file input changes
+  loadTeachers() {
+    this.courseService.getTeachers().subscribe({
+      next: (res) => (this.teachers = res),
+      error: (err) => console.error('❌ Failed to load teachers:', err)
+    });
+  }
+
   onFileChange(event: any, type: 'image' | 'video') {
-    if (event.target.files && event.target.files.length > 0) {
+    if (event.target.files?.length > 0) {
       this.files[type] = event.target.files[0];
     }
   }
@@ -52,15 +68,15 @@ export class ManageCoursesComponent implements OnInit {
       alert('Both image and video are required');
       return;
     }
-  
+
     const formData = new FormData();
     formData.append('title', this.title);
     formData.append('description', this.description);
     formData.append('price', this.price.toString());
     formData.append('teacherId', this.teacherId);
-    formData.append('image', this.files.image, this.files.image.name);  // 👈 image
-    formData.append('video', this.files.video, this.files.video.name);  // 👈 video
-  
+    formData.append('image', this.files.image);
+    formData.append('video', this.files.video);
+
     this.courseService.addCourse(formData).subscribe({
       next: () => {
         alert('Course added!');
@@ -72,20 +88,8 @@ export class ManageCoursesComponent implements OnInit {
       },
     });
   }
-  
+
   deleteCourse(id: string) {
-    this.courseService.deleteCourse(id).subscribe(() => {
-      this.loadCourses();
-    });
+    this.courseService.deleteCourse(id).subscribe(() => this.loadCourses());
   }
-  loadTeachers() {
-    this.courseService.getTeachers().subscribe({
-      next: (res) => {
-        this.teachers = res;
-      },
-      error: (err) => {
-        console.error('❌ Failed to load teachers:', err);
-      }
-    });
-  }  
 }

@@ -1,4 +1,4 @@
-<div class="manage-courses-wrapper">
+<div class="manage-courses-wrapper" *ngIf="isAdmin; else notAuthorized">
     <h2>Manage Courses</h2>
   
     <!-- Add new course -->
@@ -14,13 +14,13 @@
           {{ t.firstName }} {{ t.lastName }} ({{ t.username }})
         </option>
       </select>
-      
   
       <!-- Uploads -->
       <label>Upload Course Image</label>
       <input type="file" (change)="onFileChange($event, 'image')" accept="image/*" required />
       <label>Upload Course Video</label>
-      <input type="file" (change)="onFileChange($event, 'video')" accept="video/*" required />  
+      <input type="file" (change)="onFileChange($event, 'video')" accept="video/*" required />
+  
       <button type="submit">Add Course</button>
     </form>
   
@@ -34,4 +34,13 @@
       </div>
     </div>
   </div>
+  
+  <ng-template #notAuthorized>
+    <div class="admin-wrapper">
+      <div class="admin-card">
+        <h2>Access Denied</h2>
+        <p>You are not authorized to view this page.</p>
+      </div>
+    </div>
+  </ng-template>
   
