@@ -1,5 +1,9 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { ManageCoursesComponent } from './components/manage-cources/manage-cources.component';
+import { CourseComponent } from './components/course/course.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -13,5 +17,10 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () =>
       import('./components/auth/sign-in/sign-in.component').then(m => m.SignInComponent)
-  }
+  },
+  { path: 'profile', component: ProfileComponent },
+  { path: 'admin', component: AdminComponent },
+  { path: 'manage-courses', component: ManageCoursesComponent },
+  { path: 'course/:id', component: CourseComponent },
+
 ];

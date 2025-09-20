@@ -2,16 +2,19 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environments';
 
 /** ====== API contracts (match your backend) ====== */
-export type Role = 'student' | 'teacher';
+export type Role = 'student' | 'teacher'|'admin';
 
 export interface AuthUser {
   _id: string;
   email: string;
   username: string;
+  firstName: string;   // ✅ add this
+  lastName: string;    // ✅ add this
+  role: Role;   
 }
 
 export interface AuthResponse {
@@ -94,7 +97,24 @@ export class AuthService {
     this._isAuthed$.next(false);
     this._user$.next(null);
   }
-
+  getProfile(): Observable<AuthUser> {
+    return this.http.get<{ user: AuthUser }>(`${this.base}/auth/me`).pipe(
+      tap((res: any) => {
+        const user: AuthUser = res?.user ?? res;
+        if (user && user._id) {
+          localStorage.setItem('auth_user', JSON.stringify(user));
+          this._user$.next(user);
+          this._isAuthed$.next(!!this.token);
+        }
+      }),
+      // unwrap the { user } object so the component just gets the AuthUser
+      // if backend returns { user: {...} }
+      // otherwise just return res
+      // (res.user ?? res) ensures compatibility
+      map((res: any) => res?.user ?? res)
+    );
+  }
+  
   /** ====== Helpers ====== */
 
   private persistAuth(res: Partial<AuthResponse>) {

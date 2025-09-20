@@ -17,7 +17,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('auth_token');
-    const cloned = token ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } }) : req;
-    return next.handle(cloned);
+    
+    if (token && token !== 'null' && token !== 'undefined') {
+      req = req.clone({
+        setHeaders: { Authorization: `Bearer ${token}` }
+      });
+    }
+    
+    return next.handle(req);
   }
+  
 }
