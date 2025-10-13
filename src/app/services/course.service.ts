@@ -11,11 +11,17 @@ export interface Course {
   price: number;
   teacher: { username: string; email: string };
   media: {
-    imageUrl: string;
-    videoUrl?: string;
-    cloudinaryPublicId: string;
+    imageUrl?: string;
+    videos?: {
+      url: string;
+      cloudinaryPublicId: string;
+    }[];
+    videoUrl?: string; // ✅ keep for backward compatibility
+    cloudinaryPublicId?: string;
   };
 }
+
+
 
 @Injectable({ providedIn: 'root' })
 export class CourseService {
