@@ -40,4 +40,23 @@
       transform: translateY(0);
     }
   }
+  .subscribe-btn {
+    background: #2b6777;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .subscribe-btn:hover {
+    background: #4e7fa3;
+  }
+  
+  .course-video {
+    display: block;
+    margin: 1rem 0;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  }
   

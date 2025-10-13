@@ -1,0 +1,15 @@
+<div class="status-page">
+<h2>gddfsaf</h2>
+    <div *ngIf="status === 'success'; else failedTpl">
+      <h2>✅ Payment Successful!</h2>
+      <p>You are now subscribed to the course. Enjoy learning!</p>
+      <a routerLink="/courses" class="btn">Go back to Courses</a>
+    </div>
+  
+    <ng-template #failedTpl>
+      <h2>❌ Payment Failed</h2>
+      <p>Something went wrong or you cancelled the payment.</p>
+      <a routerLink="/courses" class="btn">Try Again</a>
+    </ng-template>
+  </div>
+  

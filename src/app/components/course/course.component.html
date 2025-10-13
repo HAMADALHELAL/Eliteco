@@ -1,19 +1,34 @@
-<div class="course-page">
-    <div class="course-wrapper" *ngIf="course; else loading">
-      <h2>{{ course.title }}</h2>
-      <p><strong>By:</strong> {{ course.teacher.username }}</p>
-      <p><strong>Price:</strong> {{ course.price | currency }}</p>
-      <p>{{ course.description }}</p>
-  
-      <!-- Video -->
-      <video *ngIf="course.media.videoUrl" 
-             [src]="course.media.videoUrl" 
-             controls 
-             class="course-video"></video>
+<div class="course-page" *ngIf="!loading; else loadingTpl">
+  <div class="course-wrapper" *ngIf="course">
+    <h2>{{ course.title }}</h2>
+    <p>{{ course.description }}</p>
+    <p><strong>Price:</strong> {{ course.price | currency:'KWD' }}</p>
+
+    <!-- If subscribed: show videos -->
+    <div *ngIf="isSubscribed; else subscribeTpl">
+      <h3>🎬 Course Videos</h3>
+      <div *ngIf="course.media?.videos?.length; else noVideos">
+        <video
+          *ngFor="let v of course.media?.videos"
+          [src]="v.url"
+          controls
+          width="400"
+          class="course-video"
+        ></video>
+      </div>
+      <ng-template #noVideos>
+        <p>No videos available for this course.</p>
+      </ng-template>
     </div>
-  
-    <ng-template #loading>
-      <p>Loading course...</p>
-    </ng-template>
   </div>
-  
+</div>
+
+<ng-template #subscribeTpl>
+  <button class="subscribe-btn" (click)="subscribe(course?._id!)">
+    💳 Subscribe to Watch
+  </button>
+</ng-template>
+
+<ng-template #loadingTpl>
+  <p>Loading course...</p>
+</ng-template>

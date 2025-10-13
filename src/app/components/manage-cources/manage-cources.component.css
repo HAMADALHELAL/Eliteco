@@ -107,4 +107,14 @@
   .course-item button:hover {
     background: #d9363e;
   }
+  .video-uploaders {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .video-uploaders label {
+    font-weight: 600;
+  }
   

@@ -1,46 +1,100 @@
 <div class="manage-courses-wrapper" *ngIf="isAdmin; else notAuthorized">
-    <h2>Manage Courses</h2>
-  
-    <!-- Add new course -->
-    <form (ngSubmit)="addCourse()" enctype="multipart/form-data">
-      <input type="text" [(ngModel)]="title" name="title" placeholder="Course Title" required />
-      <textarea [(ngModel)]="description" name="description" placeholder="Description"></textarea>
-      <input type="number" [(ngModel)]="price" name="price" placeholder="Price" required />
-  
-      <!-- Teacher dropdown -->
-      <select [(ngModel)]="teacherId" name="teacher" required>
-        <option value="" disabled selected>Select a teacher</option>
-        <option *ngFor="let t of teachers" [value]="t._id">
-          {{ t.firstName }} {{ t.lastName }} ({{ t.username }})
-        </option>
-      </select>
-  
-      <!-- Uploads -->
-      <label>Upload Course Image</label>
-      <input type="file" (change)="onFileChange($event, 'image')" accept="image/*" required />
-      <label>Upload Course Video</label>
-      <input type="file" (change)="onFileChange($event, 'video')" accept="video/*" required />
-  
-      <button type="submit">Add Course</button>
-    </form>
-  
-    <!-- List courses -->
-    <div class="course-list">
-      <div *ngFor="let c of courses" class="course-item">
-        <h3>{{ c.title }}</h3>
-        <p>{{ c.description }}</p>
-        <p>Price: {{ c.price }}$</p>
-        <button (click)="deleteCourse(c._id)">Delete</button>
+  <h2>Manage Courses</h2>
+
+  <!-- Add new course -->
+  <form (ngSubmit)="addCourse()" enctype="multipart/form-data">
+    <input
+      type="text"
+      [(ngModel)]="title"
+      name="title"
+      placeholder="Course Title"
+      required
+    />
+    <textarea
+      [(ngModel)]="description"
+      name="description"
+      placeholder="Description"
+    ></textarea>
+    <input
+      type="number"
+      [(ngModel)]="price"
+      name="price"
+      placeholder="Price"
+      required
+    />
+
+    <!-- Teacher dropdown -->
+    <select [(ngModel)]="teacherId" name="teacher" required>
+      <option value="" disabled selected>Select a teacher</option>
+      <option *ngFor="let t of teachers" [value]="t._id">
+        {{ t.firstName }} {{ t.lastName }} ({{ t.username }})
+      </option>
+    </select>
+
+    <!-- Uploads -->
+    <label>Upload Course Image</label>
+    <input
+      type="file"
+      (change)="onFileChange($event, 'image')"
+      accept="image/*"
+      required
+    />
+
+    <!-- Number of videos -->
+    <label>Number of Course Videos</label>
+    <input
+      type="number"
+      [(ngModel)]="numberOfVideos"
+      name="numberOfVideos"
+      min="0"
+      max="10"
+      placeholder="Enter number of videos"
+    />
+
+    <!-- Dynamic video uploaders -->
+    <div *ngIf="numberOfVideos > 0" class="video-uploaders">
+      <div *ngFor="let i of [].constructor(numberOfVideos); let index = index">
+        <label>Upload Video {{ index + 1 }}</label>
+        <input
+          type="file"
+          (change)="onFileChange($event, 'video', index)"
+          accept="video/*"
+          required
+        />
       </div>
+    </div>
+
+    <button type="submit">Add Course</button>
+  </form>
+
+  <!-- List courses -->
+  <div class="course-list">
+    <div *ngFor="let c of courses" class="course-item">
+      <h3>{{ c.title }}</h3>
+      <p>{{ c.description }}</p>
+      <p>Price: {{ c.price }}$</p>
+
+      <!-- Optional: show uploaded videos -->
+      <div *ngIf="c.media?.videos?.length">
+        <h4>Videos:</h4>
+        <video
+          *ngFor="let v of c.media.videos"
+          [src]="v.url"
+          controls
+          width="250"
+        ></video>
+      </div>
+
+      <button (click)="deleteCourse(c._id)">Delete</button>
     </div>
   </div>
-  
-  <ng-template #notAuthorized>
-    <div class="admin-wrapper">
-      <div class="admin-card">
-        <h2>Access Denied</h2>
-        <p>You are not authorized to view this page.</p>
-      </div>
+</div>
+
+<ng-template #notAuthorized>
+  <div class="admin-wrapper">
+    <div class="admin-card">
+      <h2>Access Denied</h2>
+      <p>You are not authorized to view this page.</p>
     </div>
-  </ng-template>
-  
+  </div>
+</ng-template>

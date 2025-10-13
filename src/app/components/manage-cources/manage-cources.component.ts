@@ -22,12 +22,14 @@ export class ManageCoursesComponent implements OnInit {
   price: number = 0;
   teacherId: string = '';
 
-  files: { image: File | null; video: File | null } = { image: null, video: null };
+  // ✅ new fields
+  numberOfVideos: number = 0;
+  videoFiles: File[] = [];
+  files: { image: File | null } = { image: null };
 
   constructor(private courseService: CourseService, private auth: AuthService) {}
 
   ngOnInit(): void {
-    // load user first
     this.auth.getProfile().subscribe({
       next: (user) => {
         this.user = user;
@@ -38,7 +40,7 @@ export class ManageCoursesComponent implements OnInit {
       },
       error: (err) => {
         console.error('❌ Failed to load profile:', err);
-      }
+      },
     });
   }
 
@@ -53,19 +55,31 @@ export class ManageCoursesComponent implements OnInit {
   loadTeachers() {
     this.courseService.getTeachers().subscribe({
       next: (res) => (this.teachers = res),
-      error: (err) => console.error('❌ Failed to load teachers:', err)
+      error: (err) => console.error('❌ Failed to load teachers:', err),
     });
   }
 
-  onFileChange(event: any, type: 'image' | 'video') {
+  // ✅ Handle image or specific video file upload
+  onFileChange(event: any, type: 'image' | 'video', index?: number) {
     if (event.target.files?.length > 0) {
-      this.files[type] = event.target.files[0];
+      if (type === 'image') {
+        this.files.image = event.target.files[0];
+      } else if (type === 'video' && index !== undefined) {
+        this.videoFiles[index] = event.target.files[0];
+      }
     }
   }
 
+  // ✅ Main upload logic
   addCourse() {
-    if (!this.files.image || !this.files.video) {
-      alert('Both image and video are required');
+    if (!this.files.image) {
+      alert('Course image is required');
+      return;
+    }
+
+    const filledVideos = this.videoFiles.filter((v) => v);
+    if (this.numberOfVideos > 0 && filledVideos.length < this.numberOfVideos) {
+      alert(`Please upload all ${this.numberOfVideos} videos`);
       return;
     }
 
@@ -75,18 +89,30 @@ export class ManageCoursesComponent implements OnInit {
     formData.append('price', this.price.toString());
     formData.append('teacherId', this.teacherId);
     formData.append('image', this.files.image);
-    formData.append('video', this.files.video);
+
+    filledVideos.forEach((file) => formData.append('videos', file));
 
     this.courseService.addCourse(formData).subscribe({
       next: () => {
-        alert('Course added!');
+        alert('✅ Course added successfully!');
         this.loadCourses();
+        this.resetForm();
       },
       error: (err) => {
         console.error('❌ Upload failed:', err);
         alert('Failed to add course');
       },
     });
+  }
+
+  resetForm() {
+    this.title = '';
+    this.description = '';
+    this.price = 0;
+    this.teacherId = '';
+    this.numberOfVideos = 0;
+    this.videoFiles = [];
+    this.files.image = null;
   }
 
   deleteCourse(id: string) {
