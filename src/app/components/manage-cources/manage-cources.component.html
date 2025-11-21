@@ -72,13 +72,13 @@
     <div *ngFor="let c of courses" class="course-item">
       <h3>{{ c.title }}</h3>
       <p>{{ c.description }}</p>
-      <p>Price: {{ c.price }}$</p>
+      <p>Price: {{ c.price }}KWD</p>
 
       <!-- Optional: show uploaded videos -->
       <div *ngIf="c.media?.videos?.length">
         <h4>Videos:</h4>
         <video
-          *ngFor="let v of c.media.videos"
+          *ngFor="let v of c.media?.videos"
           [src]="v.url"
           controls
           width="250"

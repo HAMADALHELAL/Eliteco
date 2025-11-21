@@ -1,62 +1,97 @@
-/* Full page wrapper with same background as home */
 .course-page {
-    background: linear-gradient(120deg, var(--primary-color), var(--accent-color));
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
+  background: linear-gradient(120deg, var(--primary-color), var(--accent-color));
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.course-wrapper {
+  max-width: 850px;
+  width: 100%;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Timeline styles */
+.timeline {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.timeline-item {
+  background: #eee;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.timeline-item:hover {
+  background: #2b6777;
+  color: #fff;
+}
+
+.timeline-item.active {
+  background: #2b6777;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Video Player */
+.course-video {
+  width: 100%;
+  max-height: 480px;
+  margin-top: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* Subscribe Button */
+.subscribe-btn {
+  background: #2b6777;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.subscribe-btn:hover {
+  background: #4e7fa3;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-  
-  /* White card for content */
-  .course-wrapper {
-    max-width: 800px;
-    width: 100%;
-    padding: 2rem;
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    text-align: center;
-    animation: fadeIn 0.8s ease-in-out;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  /* Video styling */
-  .course-video {
-    width: 100%;
-    max-height: 450px;
-    margin-top: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* Responsive (mobile timeline scroll) */
+@media (max-width: 600px) {
+  .timeline {
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding: 0.5rem;
   }
-  
-  /* Fade-in animation */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  .subscribe-btn {
-    background: #2b6777;
-    color: white;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-  }
-  .subscribe-btn:hover {
-    background: #4e7fa3;
-  }
-  
-  .course-video {
-    display: block;
-    margin: 1rem 0;
-    border-radius: 12px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-  }
-  
+}

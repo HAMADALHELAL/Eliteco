@@ -1,7 +1,14 @@
+// src/app/services/payment.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environments';
+
+interface PaymentResponse {
+  paymentUrl?: string;
+  subscribed?: boolean;
+  message?: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
@@ -9,18 +16,16 @@ export class PaymentService {
 
   constructor(private http: HttpClient) {}
 
-  // 🔹 Start the payment process
-  createPayment(courseId: string): Observable<{ paymentUrl: string }> {
-    const token = localStorage.getItem('token'); // ✅ must exist
+  createPayment(courseId: string): Observable<PaymentResponse> {
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-  
-    return this.http.post<{ paymentUrl: string }>(
+
+    return this.http.post<PaymentResponse>(
       `${this.base}`,
       { courseId },
       { headers }
     );
   }
-  
 }

@@ -92,8 +92,9 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem('auth_token'); 
     localStorage.removeItem(USER_KEY);
+    localStorage.removeItem('token');
     this._isAuthed$.next(false);
     this._user$.next(null);
   }

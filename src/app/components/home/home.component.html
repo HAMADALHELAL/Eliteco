@@ -10,11 +10,11 @@
 
       <div class="carousel-track" id="courses-carousel">
         <div class="card" *ngFor="let course of courses" [routerLink]="['/course', course._id]">
-          <img [src]="course.media.imageUrl" alt="{{ course.title }}" class="course-media" />
+          <img [src]="course.media?.imageUrl" alt="{{ course.title }}" class="course-media" />
         
           <div class="card-overlay">
             <h3>{{ course.title }}</h3>
-            <p>{{ course.price | currency }}</p>
+            <p>{{ course.price }}KWD</p>
             <small>By {{ course.teacher.username }}</small>
           </div>
         </div>

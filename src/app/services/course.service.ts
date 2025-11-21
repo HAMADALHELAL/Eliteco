@@ -10,7 +10,7 @@ export interface Course {
   description?: string;
   price: number;
   teacher: { username: string; email: string };
-  media: {
+  media?: {
     imageUrl?: string;
     videos?: {
       url: string;

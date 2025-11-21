@@ -2,20 +2,41 @@
   <div class="course-wrapper" *ngIf="course">
     <h2>{{ course.title }}</h2>
     <p>{{ course.description }}</p>
-    <p><strong>Price:</strong> {{ course.price | currency:'KWD' }}</p>
+    <p><strong>Price:</strong> {{ course.price | currency: 'KWD' }}</p>
 
-    <!-- If subscribed: show videos -->
+    <!-- 👥 Subscribers count -->
+    <p class="sub-count" *ngIf="course.subscribersCount !== undefined">
+      👥 <strong>{{ course.subscribersCount }}</strong> people subscribed
+    </p>
+
+    <!-- 🎬 If subscribed: show videos -->
     <div *ngIf="isSubscribed; else subscribeTpl">
       <h3>🎬 Course Videos</h3>
-      <div *ngIf="course.media?.videos?.length; else noVideos">
-        <video
-          *ngFor="let v of course.media?.videos"
-          [src]="v.url"
-          controls
-          width="400"
-          class="course-video"
-        ></video>
+
+      <!-- ✅ Timeline navigation -->
+      <div *ngIf="videos.length; else noVideos">
+        <div class="timeline">
+          <div
+            *ngFor="let v of videos; let i = index"
+            class="timeline-item"
+            [class.active]="i === selectedVideoIndex"
+            (click)="selectVideo(i)"
+          >
+            {{ i + 1 }}
+          </div>
+        </div>
+
+        <!-- 🎥 Selected video -->
+        <div class="video-player">
+          <video
+            *ngIf="videos[selectedVideoIndex]"
+            [src]="videos[selectedVideoIndex].url"
+            controls
+            class="course-video"
+          ></video>
+        </div>
       </div>
+
       <ng-template #noVideos>
         <p>No videos available for this course.</p>
       </ng-template>

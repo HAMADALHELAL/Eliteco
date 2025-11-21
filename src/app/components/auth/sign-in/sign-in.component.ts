@@ -23,18 +23,25 @@ export class SignInComponent {
     private router: Router
   ) {}
 
+  
   signIn() {
     if (!this.email || !this.password) {
       this.errorMessage = this.translate.instant('required_error');
       return;
     }
-
+  
     const dto: LoginDto = { email: this.email, password: this.password };
-
+  
     this.auth.login(dto).subscribe({
-      next: () => {
+      next: (res) => {
         this.errorMessage = '';
-        // redirect after success
+  
+        // ✅ Save token in localStorage
+        if (res.token) {
+          localStorage.setItem('token', res.token);
+        }
+  
+        // ✅ redirect after success
         this.router.navigate(['/home']);
       },
       error: (err) => {
@@ -43,4 +50,5 @@ export class SignInComponent {
       },
     });
   }
+  
 }
