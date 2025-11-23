@@ -9,18 +9,30 @@ export class PaymentService {
 
   constructor(private http: HttpClient) {}
 
-  // 🔹 Start the payment process
-  createPayment(courseId: string): Observable<{ paymentUrl: string }> {
-    const token = localStorage.getItem('token'); // ✅ must exist
-    const headers = new HttpHeaders({
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token') || '';
+    return new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-  
+  }
+
+  // 🔹 دفع كورس
+  createCoursePayment(courseId: string): Observable<{ paymentUrl: string }> {
+    const headers = this.getAuthHeaders();
     return this.http.post<{ paymentUrl: string }>(
       `${this.base}`,
-      { courseId },
+      { type: 'course', courseId },
       { headers }
     );
   }
-  
+
+  // 🔹 دفع منتج واحد (إن احتجته)
+  createProductPayment(productId: string): Observable<{ paymentUrl: string }> {
+    const headers = this.getAuthHeaders();
+    return this.http.post<{ paymentUrl: string }>(
+      `${this.base}`,
+      { type: 'product', productId },
+      { headers }
+    );
+  }
 }

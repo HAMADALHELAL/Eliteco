@@ -69,7 +69,7 @@ export class CourseComponent implements OnInit {
 
   // 💳 Start Upayment checkout
   subscribe(courseId: string) {
-    this.paymentService.createPayment(courseId).subscribe({
+    this.paymentService.createCoursePayment(courseId).subscribe({
       next: (res) => {
         if (res.paymentUrl) {
           window.location.href = res.paymentUrl; // redirect to Upayment checkout

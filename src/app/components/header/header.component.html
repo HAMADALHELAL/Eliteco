@@ -1,26 +1,43 @@
 <div class="container">
   <header class="navbar">
+    <!-- LEFT: Language -->
     <div class="left">
       <div class="lang-switcher">
-        <button class="lang-btn" (click)="switchLang('en')">{{ 'lang_en' | translate }}</button>
-        <button class="lang-btn" (click)="switchLang('ar')">{{ 'lang_ar' | translate }}</button>
+        <button class="lang-btn" (click)="switchLang('en')">
+          {{ 'lang_en' | translate }}
+        </button>
+        <button class="lang-btn" (click)="switchLang('ar')">
+          {{ 'lang_ar' | translate }}
+        </button>
       </div>
     </div>
 
+    <!-- CENTER: Logo -->
     <div class="center">
       <a [routerLink]="['/home']" class="logo-container">
         <img src="assets/logo.jpg" class="logo" />
       </a>
     </div>
 
+    <!-- RIGHT: Cart + Auth -->
     <div class="right">
-      <!-- Show these if NOT logged in -->
+      <!-- 🛒 Cart button -->
+      <button class="cart-btn" (click)="toggleCart()">
+        <mat-icon>shopping_cart</mat-icon>
+        <span class="cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+      </button>
+
+      <!-- Not logged in -->
       <ng-container *ngIf="!isAuthed">
-        <button class="sign-in-btn" [routerLink]="['/register']">{{ 'sign_up' | translate }}</button>
-        <button class="sign-in-btn" [routerLink]="['/login']">{{ 'sign_in' | translate }}</button>
+        <button class="sign-in-btn" [routerLink]="['/register']">
+          {{ 'sign_up' | translate }}
+        </button>
+        <button class="sign-in-btn" [routerLink]="['/login']">
+          {{ 'sign_in' | translate }}
+        </button>
       </ng-container>
 
-      <!-- Show this if logged in -->
+      <!-- Logged in -->
       <ng-container *ngIf="isAuthed">
         <a [routerLink]="['/profile']" class="profile-link">
           <mat-icon class="profile-icon">account_circle</mat-icon>
@@ -28,4 +45,60 @@
       </ng-container>
     </div>
   </header>
+</div>
+
+<!-- ========== CART SIDEBAR ========== -->
+<div
+  class="cart-backdrop"
+  *ngIf="isCartOpen"
+  (click)="closeCart()"
+>
+  <div class="cart-panel" (click)="$event.stopPropagation()">
+    <div class="cart-panel-header">
+      <h3>My Cart</h3>
+      <button class="close-btn" (click)="closeCart()">×</button>
+    </div>
+
+    <div class="cart-panel-body" *ngIf="(cart$ | async) as cart">
+      <ng-container *ngIf="cart.items.length; else emptyCart">
+        <div class="cart-item" *ngFor="let item of cart.items">
+          <div class="cart-item-info">
+            <div class="cart-item-title">
+              {{ item.productId | slice: 0 : 6 }}...
+            </div>
+            <div class="cart-item-meta">
+              <span>Qty: {{ item.quantity }}</span>
+              <span>{{ item.unitPrice | currency: 'KWD' }}</span>
+            </div>
+          </div>
+          <div class="cart-item-total">
+            {{ item.totalPrice | currency: 'KWD' }}
+          </div>
+        </div>
+
+        <div class="cart-summary">
+          <div class="cart-summary-row">
+            <span>Total</span>
+            <span>{{ cart.totalAmount | currency: 'KWD' }}</span>
+          </div>
+          <button
+            class="cta-btn small"
+            (click)="onCheckout()"
+            [disabled]="isCheckingOut"
+          >
+            <ng-container *ngIf="!isCheckingOut; else loadingTpl">
+              Checkout
+            </ng-container>
+            <ng-template #loadingTpl>
+              Processing...
+            </ng-template>
+          </button>
+        </div>
+      </ng-container>
+
+      <ng-template #emptyCart>
+        <p class="empty-text">Your cart is empty.</p>
+      </ng-template>
+    </div>
+  </div>
 </div>

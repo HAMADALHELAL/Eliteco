@@ -5,6 +5,8 @@ import { AdminComponent } from './components/admin/admin.component';
 import { ManageCoursesComponent } from './components/manage-cources/manage-cources.component';
 import { CourseComponent } from './components/course/course.component';
 import { PaymentStatusComponent } from './components/payment-status/payment-status.component';
+import { ProductsListComponent } from './components/admin/pages/admin/products-list.component';
+import { CreateProductComponent } from './components/admin/pages/admin/create-product.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -24,5 +26,7 @@ export const routes: Routes = [
   { path: 'admin', component: AdminComponent },
   { path: 'manage-courses', component: ManageCoursesComponent },
   { path: 'course/:id', component: CourseComponent },
+  { path: 'products', component: ProductsListComponent },
+  { path: 'create-product', component: CreateProductComponent },
 
 ];

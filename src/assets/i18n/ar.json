@@ -19,6 +19,29 @@
   "dont_have_account": "لا تملك حساباً؟",
    "required_error": "يرجى تعبئة جميع الحقول المطلوبة.",
   "password_mismatch_error": "كلمتا المرور غير متطابقتين.",
-  "confirm_password": "تأكيد كلمة المرور"
+  "confirm_password": "تأكيد كلمة المرور",
+  "first_name": "الاسم الأول",
+  "last_name": "اسم العائلة",
+  "full_name": "الاسم الكامل",
+  "phone_placeholder": "رقم الهاتف",
+  
+  "logout": "تسجيل الخروج",
+  "profile": "الملف الشخصي",
+
+  "cart": "السلة",
+  "your_cart": "سلتك",
+  "empty_cart": "سلتك فارغة",
+  "total": "الإجمالي",
+  "checkout": "إتمام الطلب",
+  "processing_payment": "جارٍ معالجة الدفع...",
+  "payment_success": "تم الدفع بنجاح",
+  "payment_failed": "فشل الدفع",
+  "back_to_home": "العودة للرئيسية",
+
+  "continue": "متابعة",
+  "save": "حفظ",
+  "cancel": "إلغاء",
+  "available_products": "المنتجات المتاحة", 
+  "loading": "جاري التحميل..."
   }
   

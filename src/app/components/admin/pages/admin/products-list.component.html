@@ -1,0 +1,59 @@
+<div class="admin-products">
+
+    <div class="header-row">
+      <h2>Products</h2>
+      <button class="add-btn" [routerLink]="['/create-product']">add item</button>
+
+    </div>
+  
+    <div *ngIf="loading">Loading...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+  
+    <div *ngIf="!loading && !error && products.length === 0">
+      لا توجد منتجات حالياً.
+    </div>
+  
+    <div class="products-grid" *ngIf="products.length">
+      <div class="product-card" *ngFor="let p of products">
+  
+        <div class="image" *ngIf="p.images?.length">
+          <img [src]="backendBase + p.images[0]" [alt]="p.title" />
+        </div>
+  
+        <h3>{{ p.title }}</h3>
+        <p class="item-number">#{{ p.itemNumber }}</p>
+        <p class="price">{{ p.price | currency:'KWD' }}</p>
+  
+        <p class="stock" [class.out]="p.isOutOfStock">
+          <ng-container *ngIf="!p.isOutOfStock; else outOfStock">
+            In stock ({{ p.quantity }})
+            <button class="qty-btn" (click)="increaseQuantity(p, $event)">+1</button>
+            <button class="qty-btn" (click)="decreaseQuantity(p, $event)">-1</button>
+          
+          </ng-container>
+          <ng-template #outOfStock>
+            Out of stock
+          </ng-template>
+        </p>
+  
+        <p *ngIf="p.limitedStock && !p.isOutOfStock" class="badge">
+          Limited stock
+        </p>
+  
+        <!-- 🔥 زر الحذف -->
+        <div class="card-actions">
+          <button class="delete-btn" (click)="deleteProduct(p._id)">
+            حذف
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <div class="pagination" *ngIf="pages > 1">
+      <button (click)="onPrevPage()" [disabled]="page === 1">Prev</button>
+      <span>Page {{ page }} / {{ pages }}</span>
+      <button (click)="onNextPage()" [disabled]="page === pages">Next</button>
+    </div>
+  
+  </div>
+  

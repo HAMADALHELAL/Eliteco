@@ -1,27 +1,43 @@
 <div class="home-wrapper">
-  <!-- Online Courses -->
+  <!-- ===================== COURSES SECTION ===================== -->
   <section id="courses" class="section light-section">
     <div class="section-header">
-      <h2 class="section-title text-center">{{ 'available_courses' | translate }}</h2>
+      <h2 class="section-title text-center">
+        {{ 'available_courses' | translate }}
+      </h2>
     </div>
 
     <div class="carousel" *ngIf="courses.length > 0; else noCourses">
-      <button class="arrow left" (click)="scrollLeft('courses-carousel')">‹</button>
+      <button class="arrow left" (click)="scrollLeft('courses-carousel')">
+        ‹
+      </button>
 
       <div class="carousel-track" id="courses-carousel">
-        <div class="card" *ngFor="let course of courses" [routerLink]="['/course', course._id]">
-          <img [src]="course.media.imageUrl" alt="{{ course.title }}" class="course-media" />
-        
+        <div
+          class="card"
+          *ngFor="let course of courses"
+          [routerLink]="['/course', course._id]"
+        >
+          <img
+            *ngIf="course.media?.imageUrl"
+            [src]="course.media?.imageUrl"
+            [alt]="course.title"
+            class="course-media"
+          />
+
           <div class="card-overlay">
             <h3>{{ course.title }}</h3>
-            <p>{{ course.price | currency }}</p>
-            <small>By {{ course.teacher.username }}</small>
+            <p>{{ course.price | currency: 'KWD' }}</p>
+            <small *ngIf="course.teacher?.username">
+              By {{ course.teacher?.username }}
+            </small>
           </div>
         </div>
-        
       </div>
 
-      <button class="arrow right" (click)="scrollRight('courses-carousel')">›</button>
+      <button class="arrow right" (click)="scrollRight('courses-carousel')">
+        ›
+      </button>
     </div>
 
     <!-- No courses fallback -->
@@ -29,4 +45,106 @@
       <p class="text-center">No courses available yet.</p>
     </ng-template>
   </section>
+
+  <!-- ===================== PRODUCTS SECTION ===================== -->
+  <section id="products" class="section light-section">
+    <div class="section-header">
+      <h2 class="section-title text-center">
+        {{ 'available_products' | translate }}
+      </h2>
+    </div>
+
+    <div class="carousel" *ngIf="products.length > 0; else noProducts">
+      <button class="arrow left" (click)="scrollLeft('products-carousel')">
+        ‹
+      </button>
+
+      <div class="carousel-track" id="products-carousel">
+        <div
+          class="card"
+          *ngFor="let p of products"
+          (click)="openProductModal(p)"
+        >
+          <img
+            *ngIf="p.images?.length"
+            [src]="backendBase + p.images[0]"
+            [alt]="p.title"
+            class="course-media"
+          />
+
+          <div class="card-overlay">
+            <h3>{{ p.title }}</h3>
+            <p>{{ p.price | currency: 'KWD' }}</p>
+            <small *ngIf="p.limitedStock && !p.isOutOfStock">
+              Limited stock
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <button class="arrow right" (click)="scrollRight('products-carousel')">
+        ›
+      </button>
+    </div>
+
+    <ng-template #noProducts>
+      <p class="text-center">No products available.</p>
+    </ng-template>
+  </section>
+
+  <!-- ===================== PRODUCT MODAL ===================== -->
+  <div
+    class="modal-backdrop"
+    *ngIf="selectedProduct"
+    (click)="closeProductModal()"
+  >
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <button class="modal-close" (click)="closeProductModal()">×</button>
+
+      <div class="modal-body">
+        <div class="modal-image" *ngIf="selectedProduct?.images?.length">
+          <img
+            [src]="backendBase + selectedProduct.images[0]"
+            [alt]="selectedProduct.title"
+          />
+        </div>
+
+        <div class="modal-info">
+          <h3>{{ selectedProduct?.title }}</h3>
+
+          <p class="base-price">
+            Unit price:
+            <span>{{ selectedProduct?.price | currency: 'KWD' }}</span>
+          </p>
+
+          <div class="qty-row">
+            <span>Quantity</span>
+            <div class="qty-controls">
+              <button type="button" (click)="changeQty(-1)">−</button>
+              <input
+                type="number"
+                min="1"
+                [ngModel]="selectedQty"
+                (ngModelChange)="onQtyInputChange($event)"
+              />
+              <button type="button" (click)="changeQty(1)">+</button>
+            </div>
+          </div>
+
+          <p class="total-price">
+            Total:
+            <span>{{ selectedTotal | currency: 'KWD' }}</span>
+          </p>
+
+          <button
+            class="cta-btn"
+            [disabled]="modalLoading"
+            (click)="addSelectedToCart()"
+          >
+            {{ modalLoading ? 'Adding...' : 'Add to cart' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
